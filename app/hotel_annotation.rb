@@ -22,3 +22,24 @@ class HotelAnnotation
     @coordinate
   end
 end
+
+__END__
+
+centroid calculated using RGeo
+
+factory = RGeo::Cartesian.factory
+coordinates = [
+  [-122.407241, 37.783499],
+  [-122.405677, 37.784990],
+  [-122.409252, 37.786067],
+  [-122.404510, 37.786550],
+  [-122.400421, 37.785357],
+  [-122.400507, 37.794729],
+  [-122.403072, 37.793003]
+]
+points = coordinates.map { |lng, lat| factory.point(lng, lat) }
+points << points.first  # this makes it a closed polygon rather than a line
+line_string = factory.line_string(points)
+polygon = factory.polygon(line_string)
+polygon.centroid
+# -122.40222926976418 37.78951696825853
